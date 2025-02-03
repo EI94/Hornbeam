@@ -24,7 +24,7 @@ export async function POST(request) {
           { status: 200, headers: { "Content-Type": "application/json" } }
         );
       }
-    } catch (error) {
+    } catch {
       return new Response(
         JSON.stringify({ error: "An error occurred." }),
         { status: 500, headers: { "Content-Type": "application/json" } }
