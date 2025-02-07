@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'AI Auth',
+  title: 'Hornbeam',
   description: 'Secure and scalable authentication solution for the AI world.',
 };
 
@@ -12,7 +12,7 @@ export default function Home() {
       {/* Header */}
       <header className="py-6">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-4xl font-bold">AI Auth</h1>
+          <h1 className="text-4xl font-bold">Hornbeam</h1>
           <nav>
             <ul className="flex space-x-6">
               <li>
@@ -52,7 +52,7 @@ export default function Home() {
             ensuring maximum protection and scalability for your systems.
           </p>
           <Link
-            href="/demo"
+            href="/features"
             className="inline-block bg-white text-blue-800 font-bold py-4 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-all"
           >
             Discover the Demo
