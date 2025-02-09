@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-// Simula la risposta del Hornbeam Agent in base al comando inserito
+// Funzione che simula la risposta del Hornbeam Agent in base al comando inserito
 const simulateAgentResponse = (input: string): Promise<string> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -21,11 +21,11 @@ const simulateAgentResponse = (input: string): Promise<string> => {
       if (lowerInput.includes("transfer") || lowerInput.includes("pay")) {
         if (amount > 5000) {
           resolve(
-            `<img src="/hornbeam-logo.svg" alt="Hornbeam Logo" class="inline-block w-6 h-6 mr-2" /> Payment Agent: Transaction of $${amount} flagged as high-risk.`
+            `Payment Agent: Transaction of $${amount} flagged as high-risk.`
           );
         } else if (amount > 0) {
           resolve(
-            `<img src="/hornbeam-logo.svg" alt="Hornbeam Logo" class="inline-block w-6 h-6 mr-2" /> Payment Agent: Transaction of $${amount} processed successfully.`
+            `Payment Agent: Transaction of $${amount} processed successfully.`
           );
         } else {
           resolve(`Payment Agent: Please include a valid amount (e.g., Transfer $3000 to account XYZ).`);
@@ -35,11 +35,11 @@ const simulateAgentResponse = (input: string): Promise<string> => {
       else if (lowerInput.includes("payroll")) {
         if (amount > 10000) {
           resolve(
-            `<img src="/hornbeam-logo.svg" alt="Hornbeam Logo" class="inline-block w-6 h-6 mr-2" /> Payroll Agent: Payroll amount of $${amount} requires extra verification.`
+            `Payroll Agent: Payroll amount of $${amount} requires extra verification.`
           );
         } else if (amount > 0) {
           resolve(
-            `<img src="/hornbeam-logo.svg" alt="Hornbeam Logo" class="inline-block w-6 h-6 mr-2" /> Payroll Agent: Payroll of $${amount} approved successfully.`
+            `Payroll Agent: Payroll of $${amount} approved successfully.`
           );
         } else {
           resolve(`Payroll Agent: Please specify a valid payroll amount.`);
@@ -48,12 +48,14 @@ const simulateAgentResponse = (input: string): Promise<string> => {
       // Use Case 3: Compliance e verifiche sospette
       else if (lowerInput.includes("suspicious") || lowerInput.includes("compliance")) {
         resolve(
-          `<img src="/hornbeam-logo.svg" alt="Hornbeam Logo" class="inline-block w-6 h-6 mr-2" /> Compliance Agent: Analyzing transactions... No anomalies detected.`
+          `Compliance Agent: Analyzing transactions... No anomalies detected.`
         );
       }
       // Caso default: comando non riconosciuto
       else {
-        resolve(`Hornbeam Agent: I'm sorry, I didn't understand your request. Try these examples:\n• Transfer $6000 to account ABC\n• Approve payroll of $12000\n• Show suspicious activity in transactions`);
+        resolve(
+          `Hornbeam Agent: I'm sorry, I didn't understand your request. Try these examples:\n• Transfer $6000 to account ABC\n• Approve payroll of $12000\n• Show suspicious activity in transactions`
+        );
       }
     }, 1500);
   });
@@ -65,6 +67,7 @@ export default function DemoChatClient() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [explanation, setExplanation] = useState<string | null>(null);
 
+  // Comandi di esempio per guidare l'utente
   const examples = [
     'Transfer $6000 to account ABC',
     'Approve payroll of $12000',
@@ -73,7 +76,7 @@ export default function DemoChatClient() {
 
   const handleSend = async () => {
     if (!input.trim()) return;
-    // Quando viene inviato un nuovo comando, rimuovi la spiegazione
+    // Quando viene inviato un nuovo comando, nascondi il box esplicativo
     setExplanation(null);
     setMessages((prev) => [...prev, { sender: 'User', text: input }]);
     setInput('');
@@ -82,7 +85,7 @@ export default function DemoChatClient() {
     const response = await simulateAgentResponse(input);
     setMessages((prev) => [...prev, { sender: 'Hornbeam Agent', text: response }]);
 
-    // Determina se mostrare una scheda esplicativa in base al comando
+    // Se il comando richiede una spiegazione, visualizza il box esplicativo
     const lowerInput = input.toLowerCase();
     const regex = /\$?([\d,\.]+)/;
     const match = input.match(regex);
@@ -155,8 +158,7 @@ export default function DemoChatClient() {
           value={input}
           onChange={(e) => {
             setInput(e.target.value);
-            // Quando l'utente inizia a digitare, nascondi il box esplicativo
-            setExplanation(null);
+            setExplanation(null); // Nascondi il box esplicativo quando l'utente inizia a digitare
           }}
           className="flex-grow p-2 rounded-l border border-gray-300 text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
@@ -174,7 +176,13 @@ export default function DemoChatClient() {
           Back to Home
         </Link>
       </div>
+      
+      {/* Box esplicativo esterno (mostrato in base al comando) */}
+      {explanation && (
+        <div className="mt-4 p-4 bg-white text-black rounded shadow-lg transition-all duration-300">
+          <p>{explanation}</p>
+        </div>
+      )}
     </div>
   );
 }
-
