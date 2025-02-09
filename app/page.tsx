@@ -26,8 +26,8 @@ export default function Home() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-gray-300 transition-colors">
-                  Contact
+                <Link href="/contacts" className="hover:text-gray-300 transition-colors">
+                  Contacts
                 </Link>
               </li>
             </ul>
@@ -80,10 +80,11 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-6 bg-black bg-opacity-30">
         <div className="container mx-auto px-4 text-center">
-          <p>&copy; 2025 Autty. All rights reserved.</p>
+          <p>&copy; 2025 Hornbeam. All rights reserved.</p>
         </div>
       </footer>
     </div>
   );
 }
+
 
